@@ -1,5 +1,5 @@
 # F Prime Visualizer (FPV)
-F Prime Visualizer (FPV) is a browser-based topology visualizer for the [F´ (F Prime)](https://github.com/nasa/fpr) flight software and embedded systems framework.
+F Prime Visualizer (FPV) is a browser-based topology visualizer for the [F´ (F Prime)](https:/nasa.github.io/fprime) flight software and embedded systems framework.
 
 FPV is a web application written in Javascript, HTML Canvas and CSS. 
 
@@ -11,7 +11,7 @@ FPV uses Node.js and the following Node packages for following application tasks
 You can check the server directory in this repository to tour the web server configuration and controller files.
 
 ## Data Requirements
-FPV reads .json files created by [F Prime Layout's](https://github.jpl.nasa.gov/bocchino/fprime-layout#fpl-convert-xml) [fpl-layout](https://github.jpl.nasa.gov/bocchino/fprime-layout#fpl-layout) tool.
+FPV reads .json files created by [F Prime Layout's](https://github.com/fprime-community/fprime-layout#fpl-convert-xml) [fpl-layout](https://github.com/fprime-community/fprime-layout#fpl-layout) tool.
 
 Reference .json files live in the ```Ref``` directory so you can test drive the application right away.
 
@@ -75,7 +75,7 @@ Use any web browser to go to http://localhost:3000.
 ### Configuring FPV
 
 #### Configuring Paths to Your Data Using .fpv-env
-Paths to [fpl-layout](https://github.jpl.nasa.gov/bocchino/fprime-layout#fpl-layout)'s json files should be listed in a .fpv-env file in the application's root directory. If this file does not exist, the application provides you with a web form to so you can create one. You can re-edit this file anytime with settings icon in the upper right of the toolbar. You can also easily edit this file by hand. See the .sample-env for a configuration example.
+Paths to [fpl-layout](https://github.com/fprime-community/fprime-layout#fpl-layout)'s json files should be listed in a .fpv-env file in the application's root directory. If this file does not exist, the application provides you with a web form to so you can create one. You can re-edit this file anytime with settings icon in the upper right of the toolbar. You can also easily edit this file by hand. See the .sample-env for a configuration example.
 
 #### Changing the Default Port
 If you already have a service running on port 3000 you can set the port number in index.js.
