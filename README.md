@@ -98,8 +98,3 @@ Example: backgroundColor: "rgba(61, 61, 61, .80)"
 
 #### Making Changes to the Canvas
 You can make more intensive changes, such as connection line width and column width, by editing the config variable at the top of the public/js/canvas.js file.
-
-## Thanks
-Thanks to [Rob Bocchino](https://github.com/bocchino/) for all the help and thinking. Also, thanks to the [F Prime Working Group](https://github.com/fprime-community) for their encouragement and feedback!
-
-
