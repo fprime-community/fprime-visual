@@ -1,0 +1,120 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "recvBuffComp",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "ParamGet",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "ParamSet",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "sendBuffComp",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "ParamGet",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "ParamSet",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "prmDb",
+        "inputPorts" : [
+          {
+            "name" : "getPrm",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "setPrm",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0
+      ]
+    ]
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "health",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "prmDb",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "SG2",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "SG1",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "pingRcvr",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "sendBuffComp",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "cmdSeq",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "recvBuffComp",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "eventLogger",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "SG3",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "SG5",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "fileDownlink",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "SG4",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "cmdResponseOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "cmdDisp",
+        "inputPorts" : [
+          {
+            "name" : "compCmdStat",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "CmdStatus",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        0,
+        4,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        3,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        9,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        12,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        5,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        11,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        8,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ]
+  ]
+}

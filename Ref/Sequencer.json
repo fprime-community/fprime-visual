@@ -1,0 +1,76 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "cmdDisp",
+        "inputPorts" : [
+          {
+            "name" : "seqCmdBuff",
+            "portNumbers" : [
+              1
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "seqCmdStatus",
+            "portNumbers" : [
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "cmdSeq",
+        "inputPorts" : [
+          {
+            "name" : "cmdResponseIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "comCmdOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ]
+  ]
+}

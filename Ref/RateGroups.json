@@ -1,0 +1,420 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "rateGroupDriverComp",
+        "inputPorts" : [
+          {
+            "name" : "CycleIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "CycleOut",
+            "portNumbers" : [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "rateGroup1Comp",
+        "inputPorts" : [
+          {
+            "name" : "CycleIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "RateGroupMemberOut",
+            "portNumbers" : [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "rateGroup2Comp",
+        "inputPorts" : [
+          {
+            "name" : "CycleIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "RateGroupMemberOut",
+            "portNumbers" : [
+              0,
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "rateGroup3Comp",
+        "inputPorts" : [
+          {
+            "name" : "CycleIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "RateGroupMemberOut",
+            "portNumbers" : [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "SG1",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "SG2",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "chanTlm",
+        "inputPorts" : [
+          {
+            "name" : "Run",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "cmdSeq",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "sendBuffComp",
+        "inputPorts" : [
+          {
+            "name" : "SchedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "SG3",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "SG4",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "health",
+        "inputPorts" : [
+          {
+            "name" : "Run",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "SG5",
+        "inputPorts" : [
+          {
+            "name" : "schedIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      },
+      {
+        "instanceName" : "blockDrv",
+        "inputPorts" : [
+          {
+            "name" : "Sched",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "CycleOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        1,
+        2,
+        0,
+        1
+      ],
+      [
+        2,
+        8,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        1,
+        0,
+        3
+      ],
+      [
+        2,
+        6,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        1,
+        0,
+        2
+      ],
+      [
+        2,
+        5,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        2,
+        0,
+        2
+      ],
+      [
+        2,
+        9,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        2,
+        7,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        3,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        1,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        2
+      ],
+      [
+        2,
+        2,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        1,
+        2,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        2,
+        9,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        1,
+        0,
+        1
+      ],
+      [
+        2,
+        4,
+        0,
+        0
+      ]
+    ]
+  ]
+}

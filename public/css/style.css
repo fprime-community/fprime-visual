@@ -1,0 +1,99 @@
+* {
+    font-family: "Roboto Mono", monospace;
+}
+
+body{
+    margin: 0;
+    padding-top: 43px;
+    min-height: 100vh;
+    background: rgba(21, 26, 42, 1.00);
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    width: calc(100% - 40px);
+    background-color: white;
+    box-shadow: 0 1px 1px rgba( 100, 100, 100, .5);
+}
+
+header select {
+    width: 150px;
+}
+
+header .logo {
+    width: 20px;
+}
+
+header .configuration {
+    width: 30px;
+    cursor: pointer;
+    transition: .3s transform;
+}
+
+header .configuration:hover {
+    transform: rotate(45deg);
+}
+
+
+canvas, #alert {
+    display: none;
+}
+
+canvas {
+    width: 100%;
+}
+
+form {
+}
+
+canvas.show {
+    display: block;
+}
+
+#alert.show {
+    display: flex;
+}
+
+#alert {
+    width: 100%;
+    max-width: 500px;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    height: calc(100vh - 43px);
+}
+
+h2 {
+    color: rgba(255, 144, 1, 1.00);
+}
+
+p {
+    color: rgba(255, 144, 1, 1.00);
+}
+
+a {
+    color: rgba(255, 144, 1, 1.00);
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 96px;
+    line-height: 24px;
+    cursor: default;
+}
+
+input {
+    width: 100%;
+    cursor: pointer;
+}

@@ -1,0 +1,141 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "groundIf",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "fileUplinkBufferSendOut",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "uplinkPort",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "fileUplinkBufferGet",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "fileUplink",
+        "inputPorts" : [
+          {
+            "name" : "bufferSendIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "bufferSendOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "instanceName" : "cmdDisp",
+        "inputPorts" : [
+          {
+            "name" : "seqCmdBuff",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      }
+    ],
+    [
+      {
+        "instanceName" : "fileUplinkBufferManager",
+        "inputPorts" : [
+          {
+            "name" : "bufferGetCallee",
+            "portNumbers" : [
+              0
+            ]
+          },
+          {
+            "name" : "bufferSendIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ]
+  ]
+}

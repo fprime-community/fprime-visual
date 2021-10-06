@@ -1,0 +1,83 @@
+{
+  "columns" : [
+    [
+      {
+        "instanceName" : "sendBuffComp",
+        "inputPorts" : [],
+        "outputPorts" : [
+          {
+            "name" : "Data",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "blockDrv",
+        "inputPorts" : [
+          {
+            "name" : "BufferIn",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : [
+          {
+            "name" : "BufferOut",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "instanceName" : "recvBuffComp",
+        "inputPorts" : [
+          {
+            "name" : "Data",
+            "portNumbers" : [
+              0
+            ]
+          }
+        ],
+        "outputPorts" : []
+      }
+    ]
+  ],
+  "connections" : [
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ]
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "fprimeviz",
+  "version": "1.0.0",
+  "description": "Visualizer for F Prime",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.jpl.nasa.gov:robray/fprimeviz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-color": "^2.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "terminal-link": "^2.1.1"
+  }
+}
