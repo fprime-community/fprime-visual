@@ -1,0 +1,9 @@
+
+# MacOS Desktop Services Store files
+**/.DS_Store
+
+# VisualStudio Code
+**/.vscode
+
+# Dependency directories
+/node_modules
