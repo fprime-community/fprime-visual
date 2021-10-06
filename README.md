@@ -11,7 +11,7 @@ FPV uses Node.js and the following Node packages for following application tasks
 You can check the server directory in this repository to tour the web server configuration and controller files.
 
 ## Data Requirements
-FPV reads .json files created by [F Prime Layout's](https://github.com/fprime-community/fprime-layout#fpl-convert-xml) [fpl-layout](https://github.com/fprime-community/fprime-layout#fpl-layout) tool.
+FPV reads .json files created by [F Prime Layout](https://github.com/fprime-community/fprime-layout).
 
 Reference .json files live in the ```Ref``` directory so you can test drive the application right away.
 
