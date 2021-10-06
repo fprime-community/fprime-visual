@@ -1,5 +1,5 @@
 {
-  "name": "fprimeviz",
+  "name": "fprime-visual",
   "version": "1.0.0",
   "description": "Visualizer for F Prime",
   "main": "server/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.jpl.nasa.gov:robray/fprimeviz.git"
+    "url": "git@github.com/fprime-community/fprime-visual.git"
   },
   "author": "",
   "license": "ISC",

@@ -57,7 +57,7 @@ Use any web browser to go to http://localhost:3000.
 Nodemon can be run from a directory outside of application root.
 The .fpv-env can also be located outside of application root.
 
-```$ nodemon /path/to/fprimeviz/server/index.js /another/path/to/.fpv-env```
+```$ nodemon /path/to/fprime-visual/server/index.js /another/path/to/.fpv-env```
 
 Nodemon will start up the application and report back the URL (ex: http://localhost:3000) 
 
