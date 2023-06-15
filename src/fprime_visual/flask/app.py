@@ -24,10 +24,9 @@ def get_folder_list():
     '''
     Get folder list to fetch JSON files from. We should have a better solution than an env file.
     '''
-    # move to controllers.folders.py
     visual_root = os.getenv("FPRIME_VISUAL_ROOT", None)
     if visual_root is None:
-        return {"folders": []}
+        return {"folders": []}, 400
     return {"folders": visual_root.split(':')}
 
 
@@ -37,8 +36,7 @@ def get_file_list():
     # Can't do in route in case there is a leading slash (absolute path)
     folder = request.args.get('folder')  
     if folder is None:
-        return flask.jsonify({"jsonFiles": []})
-
+        return flask.jsonify({"jsonFiles": []}), 400
     folder_path = Path(folder)
     files = folder_path.glob('*.json')
     file_paths = [str(file.name) for file in files]
@@ -50,8 +48,7 @@ def get_file():
     '''Reads in file given in "file" query parameter.'''
     file = request.args.get('file')
     if file is None:
-        return flask.jsonify({"file": None})
-
+        return flask.jsonify({"file": None}), 400
     with open(file, 'r') as f:
         contents = f.read()
     return contents
