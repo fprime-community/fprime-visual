@@ -1,8 +1,0 @@
-# Add your data directories here. 
-# Be sure to include trailing slash.
-# NOTE: You need to restart the web server after adding a path.
-
-# Example Paths
-DATA_FOLDER=public/REF/
-# DATA_FOLDER=/path/to/data/ 
-# DATA_FOLDER=/home/rob/data/ 

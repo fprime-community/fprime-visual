@@ -57,6 +57,7 @@ def get_file():
     return contents
 
 
+# For debugging
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(port=5001)

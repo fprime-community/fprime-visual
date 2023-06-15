@@ -7,3 +7,7 @@
 
 # Dependency directories
 /node_modules
+
+build
+.eggs
+**.egg-info
