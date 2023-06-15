@@ -5,8 +5,9 @@ FPV is a web application written in [Flask](https://flask.palletsprojects.com/).
 
 ## Installation 
 
+> Note: Still under development. For now, installation is available from source only
 ```bash
-pip install fprime-visual
+pip install .
 ```
 
 ## Running
@@ -16,7 +17,8 @@ FPV reads .json files created by [F Prime Layout](https://github.com/fprime-comm
 
 Reference .json files live in the ```examples``` directory so you can test drive the application right away.
 ```bash
-fprime-visual --source-dir ./examples
+export FPRIME_VISUAL_ROOT=./examples
+fprime-visual
 ```
 
 #### Stopping
