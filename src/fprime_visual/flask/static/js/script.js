@@ -1,4 +1,4 @@
-let logsOn = true;
+let logsOn = false;
 const log = (() => {
   if (logsOn) {
     return console.log.bind(console);
@@ -71,20 +71,11 @@ const Program = {
   },
 
   handleFolderList(response) {
-    console.log('handleFolderList: ' + response.folders )
     let element = '#alert';
 
     if (!response.err) {  
-      // Comment this block
-      // const folders = response.folders.map((folder, index) => {
-      //   // if (response.status[index] === '404') {
-      //   //   folder += ' <-- invalid line';
-      //   // }
-      //   return folder;
-      // });
       const folders = response.folders;
-      
-  
+
       document.querySelector('textarea').value = folders.join('\n');
 
       element = 'canvas';
