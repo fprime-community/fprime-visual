@@ -6,7 +6,6 @@
 import flask
 from flask import request
 from pathlib import Path
-import os
 
 def construct_app(config: dict):
     """Constructs a Flask app for fprime-visual.
@@ -26,15 +25,15 @@ def construct_app(config: dict):
     @app.route('/get-folder-list')
     def get_folder_list():
         """Get folders to fetch JSON files from. This is being read from the app config."""
-        if not isinstance(app.config['SOURCE_DIRS'], list):
+        if not isinstance(app.config.get('SOURCE_DIRS'), list):
             return {"folders": []}, 400
-        return {"folders": app.config['SOURCE_DIRS']}
+        return {"folders": app.config.get('SOURCE_DIRS')}
 
 
     @app.route('/get-file-list')
     def get_file_list():
         """Get list of JSON files in the given folder."""
-        folder = request.args.get('folder')  
+        folder = request.args.get('folder', default=None)  
         if folder is None:
             return {"jsonFiles": []}, 400
         folder_path = Path(folder)
@@ -46,7 +45,7 @@ def construct_app(config: dict):
     @app.route('/get-file')
     def get_file():
         '''Reads in file given in "file" query parameter.'''
-        file = request.args.get('file')
+        file = request.args.get('file', default=None)
         if file is None:
             return {"file": None}, 400
         with open(file, 'r') as f:
@@ -59,5 +58,5 @@ def construct_app(config: dict):
 # For debugging
 if __name__ == '__main__':
     # app.run(debug=True)
-    app = construct_app(None)
-    app.run(port=5001)
+    app = construct_app({"SOURCE_DIRS": ["/"]})
+    app.run(port=7001)

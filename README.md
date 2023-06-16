@@ -17,8 +17,7 @@ FPV reads .json files created by [F Prime Layout](https://github.com/fprime-comm
 
 Reference .json files live in the ```examples``` directory so you can test drive the application right away.
 ```bash
-export FPRIME_VISUAL_ROOT=./examples
-fprime-visual
+fprime-visual --source-dir examples/
 ```
 
 #### Stopping
