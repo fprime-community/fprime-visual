@@ -7,6 +7,10 @@ import flask
 from flask import request
 from pathlib import Path
 
+
+DEFAULT_THEME = "dark-blue"
+
+
 def construct_app(config: dict):
     """Constructs a Flask app for fprime-visual.
     config is a dictionary of configuration options for the app. Required config options are:
@@ -19,7 +23,7 @@ def construct_app(config: dict):
 
     @app.route('/')
     def index():
-        return flask.send_from_directory("static", "index.html")
+        return flask.render_template("index.html", theme_name=config.get('THEME_NAME', DEFAULT_THEME))
 
     @app.route('/get-folder-list')
     def get_folder_list():

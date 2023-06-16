@@ -10,6 +10,7 @@ def parse_args():
     
     parser.add_argument("--source-dir", default=[os.getcwd()], nargs="*", help="Specify source directories (JSON files). If not provided, uses current directory.", required=False)
     parser.add_argument("--gui-port", default=7000, help="Set the GUI server port [default: 7000]", required=False)
+    parser.add_argument("--theme", default="dark-blue", help="GUI theme [dark|dark-blue|light-seafoam]", required=False)
     
     args = parser.parse_args()
     return args
@@ -20,6 +21,7 @@ def get_config(args):
 
     source_dirs = [str(Path(source_dir).resolve()) for source_dir in args.source_dir]
     config["SOURCE_DIRS"] = source_dirs
+    config["THEME_NAME"] = args.theme
 
     return config
 
