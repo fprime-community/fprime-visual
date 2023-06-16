@@ -25,7 +25,11 @@ fprime-visual --source-dir examples/
 
 
 #### Selecting a Theme
-You can change the look of FPV by selecting one of the themes residing in the public/js/themes directory. Update the path in index.html to change.
+You can change the look of FPV by selecting one of the themes residing in the flask/static/js/themes directory.
+Themes can be selected with the following argument
+```bash
+fprime-visual --theme dark
+```
 
 #### Capturing a full size screenshot
 There is currently no in-application feature for this. The Chrome and Firefox browsers provide this functionality built-in. Check out the
