@@ -21,7 +21,6 @@ def construct_app(config: dict):
     def index():
         return flask.send_from_directory("static", "index.html")
 
-
     @app.route('/get-folder-list')
     def get_folder_list():
         """Get folders to fetch JSON files from. This is being read from the app config."""
@@ -29,29 +28,26 @@ def construct_app(config: dict):
             return {"folders": []}, 400
         return {"folders": app.config.get('SOURCE_DIRS')}
 
-
     @app.route('/get-file-list')
     def get_file_list():
-        """Get list of JSON files in the given folder."""
+        """Get list of JSON files in the given 'folder' query parameter."""
         folder = request.args.get('folder', default=None)  
         if folder is None:
             return {"jsonFiles": []}, 400
-        folder_path = Path(folder)
-        files = folder_path.glob('*.json')
-        file_paths = [str(file.name) for file in files]
+        json_files = Path(folder).glob('*.json')
+        file_paths = [str(file.name) for file in json_files]
         return {"jsonFiles": file_paths}
-
 
     @app.route('/get-file')
     def get_file():
-        '''Reads in file given in "file" query parameter.'''
+        """Get file content of the given 'file' query parameter."""
         file = request.args.get('file', default=None)
         if file is None:
             return {"file": None}, 400
         with open(file, 'r') as f:
             contents = f.read()
         return contents
-    
+
     return app
 
 
