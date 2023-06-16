@@ -1,60 +1,63 @@
-####
-# app.py:
-#
-# This file sets up the flask app, and registers the endpoints for the individual APIs supplied by
-# this framework.
-#
-# 
-####
+"""fprime_visual.flask.app: Flask app for fprime-visual
+
+@author thomas-bc
+"""
 
 import flask
 from flask import request
 from pathlib import Path
 import os
 
-app = flask.Flask(__name__)
+def construct_app(config: dict):
+    """Constructs a Flask app for fprime-visual.
+    config is a dictionary of configuration options for the app. Required config options are:
+    - SOURCE_DIRS: A list of directories to search for JSON files.
+    """
 
-@app.route('/')
-def index():
-    return flask.send_from_directory("static", "index.html")
+    app = flask.Flask(__name__)
+    
+    app.config.update(config)
 
-
-@app.route('/get-folder-list')
-def get_folder_list():
-    '''
-    Get folder list to fetch JSON files from. We should have a better solution than an env file.
-    '''
-    visual_root = os.getenv("FPRIME_VISUAL_ROOT", None)
-    if visual_root is None:
-        return {"folders": []}, 400
-    return {"folders": visual_root.split(':')}
+    @app.route('/')
+    def index():
+        return flask.send_from_directory("static", "index.html")
 
 
-@app.route('/get-file-list')
-def get_file_list():
-    # # Get the 'folder' query parameter vs. parameter in route?
-    # Can't do in route in case there is a leading slash (absolute path)
-    folder = request.args.get('folder')  
-    if folder is None:
-        return flask.jsonify({"jsonFiles": []}), 400
-    folder_path = Path(folder)
-    files = folder_path.glob('*.json')
-    file_paths = [str(file.name) for file in files]
-    return flask.jsonify({"jsonFiles": file_paths})
+    @app.route('/get-folder-list')
+    def get_folder_list():
+        """Get folders to fetch JSON files from. This is being read from the app config."""
+        if not isinstance(app.config['SOURCE_DIRS'], list):
+            return {"folders": []}, 400
+        return {"folders": app.config['SOURCE_DIRS']}
 
 
-@app.route('/get-file')
-def get_file():
-    '''Reads in file given in "file" query parameter.'''
-    file = request.args.get('file')
-    if file is None:
-        return flask.jsonify({"file": None}), 400
-    with open(file, 'r') as f:
-        contents = f.read()
-    return contents
+    @app.route('/get-file-list')
+    def get_file_list():
+        """Get list of JSON files in the given folder."""
+        folder = request.args.get('folder')  
+        if folder is None:
+            return {"jsonFiles": []}, 400
+        folder_path = Path(folder)
+        files = folder_path.glob('*.json')
+        file_paths = [str(file.name) for file in files]
+        return {"jsonFiles": file_paths}
+
+
+    @app.route('/get-file')
+    def get_file():
+        '''Reads in file given in "file" query parameter.'''
+        file = request.args.get('file')
+        if file is None:
+            return {"file": None}, 400
+        with open(file, 'r') as f:
+            contents = f.read()
+        return contents
+    
+    return app
 
 
 # For debugging
 if __name__ == '__main__':
     # app.run(debug=True)
+    app = construct_app(None)
     app.run(port=5001)
