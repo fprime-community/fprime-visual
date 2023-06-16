@@ -121,7 +121,12 @@ const Program = {
   },
 
   getFolder() {
-    return document.getElementById("select-folder").value
+    let folder = document.getElementById("select-folder").value;
+    // Append trailing slash to ease path concatenation
+    if (!folder.endsWith('/')) {
+      folder += '/';
+    }
+    return folder;
   },
 
   populateOptions (data, selectID) {
