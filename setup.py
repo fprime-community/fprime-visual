@@ -2,9 +2,7 @@
 ####
 # fprime_visual Python Package:
 #
-# The F prime GDS layer provides a basic GDS intended to enable the user to test F prime
-# distributions. In addition it provides an integration and test layer to allow for automated
-# testing of F prime distributions.
+# F´ Visual is a tool for visualizing FPP models (represented in JSON) in the browser.
 #
 # Endpoints:
 # - fprime-visual: run the F´ Visual UI
@@ -28,7 +26,7 @@ setup(
     name="fprime_visual",
     use_scm_version={"root": ".", "relative_to": __file__},
     license="Apache 2.0 License",
-    description="F Prime Flight Software Ground Data System layer.",
+    description="F Prime model (FPP) visualization tool.",
     long_description="""
 This package contains the Python files used to run the F´ Visualization tool. This tool is used to
 visualize FPP models.
