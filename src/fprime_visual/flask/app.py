@@ -27,6 +27,10 @@ def construct_app(config: dict):
             "index.html", theme_name=config.get("THEME_NAME", DEFAULT_THEME)
         )
 
+    @app.route("/<path:path>")
+    def static_files(path):
+        return flask.send_from_directory("static", path)
+
     @app.route("/get-folder-list")
     def get_folder_list():
         """Get folders to fetch JSON files from. This is being read from the app config."""
