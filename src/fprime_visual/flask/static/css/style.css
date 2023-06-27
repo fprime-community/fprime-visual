@@ -31,16 +31,11 @@ header select {
 }
 
 header .logo {
-    width: 20px;
-}
-
-header .header-buttons {
-    display: flex;
-    gap: 10px;
-    align-self: right;
+    width: 40px;
 }
 
 header .header-button {
+    margin-right: 10px;
     width: 30px;
     cursor: pointer;
     transition: .3s transform;
