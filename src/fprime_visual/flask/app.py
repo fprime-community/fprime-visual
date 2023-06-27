@@ -43,8 +43,11 @@ def construct_app(config: dict):
         """Get list of JSON files in the given 'folder' query parameter."""
         folder = request.args.get("folder", default=None)
         if folder is None:
-            return {"jsonFiles": []}, 400
-        json_files = Path(folder).glob("*.json")
+            return "No folder argument provided", 400
+        folder = Path(folder).resolve()
+        if str(folder) not in app.config.get("SOURCE_DIRS"):
+            return "folder argument not authorized", 403
+        json_files = folder.glob("*.json")
         file_paths = [str(file.name) for file in json_files]
         return {"jsonFiles": file_paths}
 
@@ -53,16 +56,13 @@ def construct_app(config: dict):
         """Get file content of the given 'file' query parameter."""
         file = request.args.get("file", default=None)
         if file is None:
-            return {"file": None}, 400
-        with open(file, "r") as f:
-            contents = f.read()
-        return contents
+            return "No file argument provided", 400
+        file = Path(file)
+        parent_path = str(file.parent.resolve())
+        if parent_path not in app.config.get("SOURCE_DIRS"):
+            return "Forbidden", 403
+        else:
+            source_index = app.config.get("SOURCE_DIRS").index(parent_path)
+        return flask.send_from_directory(app.config.get("SOURCE_DIRS")[source_index], file.name)
 
     return app
-
-
-# For debugging
-if __name__ == "__main__":
-    # app.run(debug=True)
-    app = construct_app({"SOURCE_DIRS": ["/"]})
-    app.run(port=7001)

@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 import json
 from fprime_visual.flask.app import construct_app
@@ -5,7 +6,7 @@ from fprime_visual.flask.app import construct_app
 
 @pytest.fixture
 def client():
-    config = {"SOURCE_DIRS": ["examples/"]}
+    config = {"SOURCE_DIRS": [str(Path("examples/").resolve())]}
     app = construct_app(config)
     app.config["TESTING"] = True
 
@@ -28,7 +29,7 @@ def test_folder_handling(client):
     rv = client.get("/get-folder-list")
     assert rv.status_code == 200
     assert "folders" in rv.json
-    assert "examples/" in rv.json["folders"]
+    assert str(Path("examples/").resolve()) in rv.json["folders"]
 
 
 def test_file_handling(client):

@@ -13,7 +13,7 @@ def parse_args():
     parser.add_argument(
         "--source-dir",
         default=[os.getcwd()],
-        nargs="*",
+        action="append",
         help="Specify source directories (JSON files). If not provided, uses current directory.",
         required=False,
     )
@@ -38,7 +38,7 @@ def get_config(args):
     """Generates a dictionary from the given arguments. This dictionary will be used to configure the Flask app."""
     config = {}
 
-    source_dirs = [str(Path(source_dir).resolve()) for source_dir in args.source_dir]
+    source_dirs = list(set([str(Path(source_dir).resolve()) for source_dir in args.source_dir]))
     config["SOURCE_DIRS"] = source_dirs
     config["THEME_NAME"] = args.theme
 
