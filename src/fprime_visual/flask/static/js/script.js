@@ -28,11 +28,6 @@ const Program = {
     document
       .getElementById("select-file")
       .addEventListener("change", () => this.loadFile());
-    
-    // // On form submit
-    // document
-    //   .getElementById("submit-folders")
-    //   .addEventListener("click", (event) => this.handleCreateEnv());
   
     document
       .getElementById("info-button")
@@ -67,23 +62,6 @@ const Program = {
       .then(render);
   },
 
-  // handleCreateEnv() {
-  //   const foldersInput = document.getElementById("folder-paths");
-  //   const paths = foldersInput.value
-  //     .trim()
-  //     .replace(/\n/g, ',')
-  //     .replace(/\s/g, '')
-  //   // Append trailing slash $0.value.match(/[a-z0-9_\-\/]+[\\\/]/i)
-
-  //   fetch('/create-env?folders=' + paths)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log(response); 
-  //       document.querySelector('#alert').classList.remove('show');
-  //       this.handleFolderList(response)
-  //     })
-  // },
-
   loadFolders() {
     fetch('/get-folder-list')
       .then((response) => response.json())
@@ -94,10 +72,6 @@ const Program = {
     let element = '#alert';
 
     if (!response.err) {  
-      // const folders = response.folders;
-
-      // document.querySelector('textarea').value = folders.join('\n');
-
       element = 'canvas';
       this.populateOptions(response.folders, '#select-folder');
       this.loadFileNames();
@@ -164,7 +138,6 @@ const Program = {
   },
 
   alertUser() {
-    // document.querySelector('#alert').innerHTML="No .env file found"
 
   }
 };

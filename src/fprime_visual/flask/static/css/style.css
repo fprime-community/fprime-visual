@@ -60,9 +60,6 @@ canvas {
     width: 100%;
 }
 
-/* form {
-} */
-
 canvas.show {
     display: block;
 }
@@ -91,16 +88,3 @@ p {
 a {
     color: rgba(255, 144, 1, 1.00);
 }
-
-/* textarea {
-    width: 100%;
-    box-sizing: border-box;
-    height: 96px;
-    line-height: 24px;
-    cursor: default;
-}
-
-input {
-    width: 100%;
-    cursor: pointer;
-} */
