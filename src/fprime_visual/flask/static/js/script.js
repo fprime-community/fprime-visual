@@ -39,19 +39,21 @@ const Program = {
   },
 
   screenshotCanvas(event) {
-      let canvas = document.querySelector('canvas');
-      // Convert our canvas to a data URL
-      let canvasUrl = canvas.toDataURL("image/svg+xml");
-      // Create an anchor, and set the href value to our data URL
-      const createEl = document.createElement('a');
-      createEl.href = canvasUrl;
-  
-      // This is the name of our downloaded file
-      createEl.download = "download-this-canvas";
-  
-      // Click the download button, causing a download, and then remove it
-      createEl.click();
-      createEl.remove();
+    // Hacky way to screenshot a Canvas
+    // See https://fjolt.com/article/html-canvas-save-as-image
+    let imageFormat = "png";
+
+    let canvas = document.querySelector('canvas');
+    // Convert our canvas to a data URL
+    let canvasUrl = canvas.toDataURL("image/" + imageFormat);
+    // Create an anchor, and set the href value to our data URL
+    const createEl = document.createElement('a');
+    createEl.href = canvasUrl;
+    // This is the name of our downloaded file
+    createEl.download = document.getElementById('select-file').value.split('.json')[0] + "." + imageFormat;
+    // Click the download button, causing a download, and then remove it
+    createEl.click();
+    createEl.remove();
   },
   
   // Returns a response promise asynchronously
