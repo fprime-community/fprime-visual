@@ -5,9 +5,8 @@ FPV is a web application written in [Flask](https://flask.palletsprojects.com/).
 
 ## Installation 
 
-> Note: Still under development. For now, installation is available from source only
 ```bash
-pip install .
+pip install fprime-visual
 ```
 
 ## Running
@@ -21,7 +20,7 @@ fprime-visual --source-dir examples/
 ```
 
 #### Stopping
-<kbd>Ctrl</kbd> + <kbd>C</kbd> will SIGINT Express to stop it.
+<kbd>Ctrl</kbd> + <kbd>C</kbd> will stop the application.
 
 
 #### Selecting a Theme
@@ -32,9 +31,7 @@ fprime-visual --theme dark
 ```
 
 #### Capturing a full size screenshot
-There is currently no in-application feature for this. The Chrome and Firefox browsers provide this functionality built-in. Check out the
-[Google Chrome How-to](https://developers.google.com/web/updates/2017/04/devtools-release-notes#screenshots) and
- [Firefox How-to](https://support.mozilla.org/en-US/kb/firefox-screenshots) for guidance.
+A screenshot button in the top banner allows for capturing a screenshot of the current view as a PNG image.
 
 ### Customizing FPV
 
