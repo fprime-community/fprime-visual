@@ -34,14 +34,21 @@ header .logo {
     width: 20px;
 }
 
-header .configuration {
+header .header-buttons {
+    display: flex;
+    gap: 10px;
+    align-self: right;
+}
+
+header .header-button {
     width: 30px;
     cursor: pointer;
     transition: .3s transform;
 }
 
-header .configuration:hover {
-    transform: rotate(45deg);
+header .header-button:hover {
+    /* transform: rotate(45deg); */
+    transform: scale(1.15); /* Increase the size by 20% */
 }
 
 
@@ -53,8 +60,8 @@ canvas {
     width: 100%;
 }
 
-form {
-}
+/* form {
+} */
 
 canvas.show {
     display: block;
@@ -85,7 +92,7 @@ a {
     color: rgba(255, 144, 1, 1.00);
 }
 
-textarea {
+/* textarea {
     width: 100%;
     box-sizing: border-box;
     height: 96px;
@@ -96,4 +103,4 @@ textarea {
 input {
     width: 100%;
     cursor: pointer;
-}
+} */

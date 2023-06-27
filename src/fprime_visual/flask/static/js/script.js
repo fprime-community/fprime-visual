@@ -29,14 +29,34 @@ const Program = {
       .getElementById("select-file")
       .addEventListener("change", () => this.loadFile());
     
-    // On form submit
-    document
-      .getElementById("submit-folders")
-      .addEventListener("click", (event) => this.handleCreateEnv());
+    // // On form submit
+    // document
+    //   .getElementById("submit-folders")
+    //   .addEventListener("click", (event) => this.handleCreateEnv());
   
     document
-      .querySelector(".configuration")
+      .getElementById("info-button")
       .addEventListener("click", (event) => this.toggleConfig());
+
+    document
+      .getElementById('screenshot-button')
+      .addEventListener('click', (event) => this.screenshotCanvas(event));
+  },
+
+  screenshotCanvas(event) {
+      let canvas = document.querySelector('canvas');
+      // Convert our canvas to a data URL
+      let canvasUrl = canvas.toDataURL("image/svg+xml");
+      // Create an anchor, and set the href value to our data URL
+      const createEl = document.createElement('a');
+      createEl.href = canvasUrl;
+  
+      // This is the name of our downloaded file
+      createEl.download = "download-this-canvas";
+  
+      // Click the download button, causing a download, and then remove it
+      createEl.click();
+      createEl.remove();
   },
   
   // Returns a response promise asynchronously
@@ -47,22 +67,22 @@ const Program = {
       .then(render);
   },
 
-  handleCreateEnv() {
-    const foldersInput = document.getElementById("folder-paths");
-    const paths = foldersInput.value
-      .trim()
-      .replace(/\n/g, ',')
-      .replace(/\s/g, '')
-    // Append trailing slash $0.value.match(/[a-z0-9_\-\/]+[\\\/]/i)
+  // handleCreateEnv() {
+  //   const foldersInput = document.getElementById("folder-paths");
+  //   const paths = foldersInput.value
+  //     .trim()
+  //     .replace(/\n/g, ',')
+  //     .replace(/\s/g, '')
+  //   // Append trailing slash $0.value.match(/[a-z0-9_\-\/]+[\\\/]/i)
 
-    fetch('/create-env?folders=' + paths)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response); 
-        document.querySelector('#alert').classList.remove('show');
-        this.handleFolderList(response)
-      })
-  },
+  //   fetch('/create-env?folders=' + paths)
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       console.log(response); 
+  //       document.querySelector('#alert').classList.remove('show');
+  //       this.handleFolderList(response)
+  //     })
+  // },
 
   loadFolders() {
     fetch('/get-folder-list')
@@ -74,13 +94,17 @@ const Program = {
     let element = '#alert';
 
     if (!response.err) {  
-      const folders = response.folders;
+      // const folders = response.folders;
 
-      document.querySelector('textarea').value = folders.join('\n');
+      // document.querySelector('textarea').value = folders.join('\n');
 
       element = 'canvas';
       this.populateOptions(response.folders, '#select-folder');
       this.loadFileNames();
+      // Hide folder selection if only one folder is found
+      if (response.folders.length == 1) {
+        document.getElementById("select-folder-zone").style.display = 'none';
+      } 
     }
 
     // Show alert message or canvas.
@@ -96,11 +120,6 @@ const Program = {
       document.querySelector('canvas').classList.add('show');
     }
   },
-
-  /*toggleConfig() {
-    document.querySelector('#alert').classList.toggle('show');
-    document.querySelector('canvas').classList.toggle('show');
-  },*/
 
   loadFileNames() {
     fetch('/get-file-list?folder=' + this.getFolder())
