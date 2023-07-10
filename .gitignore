@@ -7,3 +7,9 @@
 
 # Dependency directories
 /node_modules
+
+# Python dev things
+build
+.eggs
+**.egg-info
+__pycache__

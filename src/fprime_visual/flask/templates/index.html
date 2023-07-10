@@ -10,7 +10,7 @@
     <header>
         <img class="logo" src="img/f-logo-gradient.png" alt="f prime logo">
         <form>
-            <label>
+            <label id="select-folder-zone">
                 Folder:
                 <select id="select-folder">
                     <option disabled ></option>
@@ -23,16 +23,14 @@
                 </select>
             </label>
         </form>
-        <img class="configuration" src="img/gear.png" alt="configuration">
+        <div id="header-buttons">
+            <img class="header-button" id="screenshot-button" src="img/screenshot.png" alt="screenshot-button">
+            <img class="header-button" id="info-button" src="img/info.png" alt="info-button">
+        </div>
     </header>
 
     <div id="alert">
         <h2>F Prime Visualizer (FPV)</h2>
-        <p>Please enter the paths to at least one data directory.</p>
-        <p>Ex: /home/user/Documents/ref/json/</p>
-        <textarea name="" id="folder-paths"></textarea>
-        <input type="submit" value="Submit" id="submit-folders">
-  
         <br>
         <p>Need Help? Head over to the GitHub repo: <a href="https://github.com/fprime-community/fprime-visual">https://github.com/fprime-community/fprime-visual</a> </p>
 
@@ -42,7 +40,7 @@
     <script src="js/helpers.js"></script>
 
     <!-- Pick any file in themes dir to change -->
-    <script src="js/themes/dark-blue.js"></script>
+    <script src="js/themes/{{ theme_name }}.js"></script>
 
     <script src="js/parse-data.js"></script>
     <script src="js/classes/box.js"></script>

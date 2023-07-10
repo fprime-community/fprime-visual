@@ -31,17 +31,19 @@ header select {
 }
 
 header .logo {
-    width: 20px;
+    width: 40px;
 }
 
-header .configuration {
+header .header-button {
+    margin-right: 10px;
     width: 30px;
     cursor: pointer;
     transition: .3s transform;
 }
 
-header .configuration:hover {
-    transform: rotate(45deg);
+header .header-button:hover {
+    /* transform: rotate(45deg); */
+    transform: scale(1.15); /* Increase the size by 20% */
 }
 
 
@@ -51,9 +53,6 @@ canvas, #alert {
 
 canvas {
     width: 100%;
-}
-
-form {
 }
 
 canvas.show {
@@ -83,17 +82,4 @@ p {
 
 a {
     color: rgba(255, 144, 1, 1.00);
-}
-
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    height: 96px;
-    line-height: 24px;
-    cursor: default;
-}
-
-input {
-    width: 100%;
-    cursor: pointer;
 }
