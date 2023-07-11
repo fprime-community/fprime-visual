@@ -6,20 +6,31 @@ jobs:
   Build-PyPI-Package:
     runs-on: ubuntu-latest
     steps:
-    - name: "Checkout Repository"
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Test PyPI
-      uses: fprime-community/publish-pypi@main
-      env:
-        TWINE_PASSWORD: ${{ secrets.TESTPYPI_CREDENTIAL }}
-      with:
-        package: "fprime-visual"
-    - name: PyPI
-      uses: fprime-community/publish-pypi@main
-      env:
-        TWINE_PASSWORD: ${{ secrets.PYPI_CREDENTIAL }}
-      with:
-        repo: "pypi"
-        package: "fprime-visual"
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        run: pip3 install -U pip wheel "setuptools<66.0.0" setuptools_scm twine
+      - name: Build
+        run: python setup.py sdist bdist_wheel
+  Publish-TestPyPI:
+    runs-on: ubuntu-latest
+    needs: Build-PyPI-Package
+    permissions:
+      # this permission is mandatory for trusted publishing
+      id-token: write
+    steps:
+      - name: Publish package distributions to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+  Publish-PyPI:
+    runs-on: ubuntu-latest
+    needs: Publish-TestPyPI
+    permissions:
+      # this permission is mandatory for trusted publishing
+      id-token: write
+    steps:
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
