@@ -1,22 +1,19 @@
-class Box {
-  constructor(element, position, connections, coordinates, context) {
+import {componentHeight} from "../layout/basic-layout.js";
+
+export class Box {
+  constructor(element, position, connections, coordinates, context, config) {
     // Attr
     this.element = element;
     this.position = position;
     this.context = context;
+    this.config = config;
     this.coordinates = coordinates;
     this.connections = connections;
 
     this.createBox();
     this.createPortBoxes();
 
-    this.bottom = this.position.y + componentHeight(element);
-  }
-
-  getAmountOfPorts (portsGroups) {
-    return portsGroups.reduce((sum, { portNumbers }) => {
-      return sum + portNumbers.length
-    }, 0);
+    this.bottom = this.position.y + componentHeight(element, config);
   }
 
   trimText(instanceName, availWidth) {
@@ -35,13 +32,8 @@ class Box {
   }
 
   createBox() {
-    const { element, position, context } = this;
+    const { element, position, context, config } = this;
     const { instanceName } = element;
-    
-    /*const element = this.element
-    const position = this.position
-    const context = this.context
-    const instanceName = element.instanceName;*/
     
     // Box
     context.fillStyle = config.component.backgroundColor;
@@ -50,7 +42,7 @@ class Box {
       position.x,
       position.y,
       config.component.width,
-      componentHeight(element),
+      componentHeight(element, config),
       config.portBox.borderRadius,
       true,
       false
@@ -78,6 +70,7 @@ class Box {
   // TODO then subtract 2 * padding
 
   getAvailableSpace() {
+    const {config} = this;
     const availableSpace = config.component.width - config.component.padding.x * 2;
     return availableSpace;
   }
@@ -118,6 +111,7 @@ class Box {
   }
 
   sourceLine(position) {
+    const {config} = this;
     const {
       size,
       sourceWidth: width,
@@ -136,7 +130,7 @@ class Box {
   }
 
   targetTriangle(position) {
-      const { context } = this
+      const { context, config } = this
       const {
         size,
         targetFillStyle,
@@ -153,7 +147,7 @@ class Box {
   }
 
   createPortBox(box, index) {
-    const { position: parentPosition, context } = this;
+    const { position: parentPosition, context, config } = this;
     const { num, port, showPortName } = box;
   
     const styles = config.portBox[box.portType];

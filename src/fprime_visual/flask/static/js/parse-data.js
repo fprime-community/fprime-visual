@@ -1,3 +1,6 @@
+// TODO: deprecate/remove this file?
+// doesn't seem like these functions are used anywhere
+
 function addConnection(data, connection) {
   // Search for existing components (source and target) within the columns
   let [sourceComponent, sourceColumn] = findComponent(

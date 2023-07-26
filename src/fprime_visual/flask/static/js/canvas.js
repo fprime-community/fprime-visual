@@ -1,3 +1,8 @@
+import {getBasicLayout, componentHeight} from "./layout/basic-layout.js";
+import {Box} from "./classes/box.js";
+// JSDoc typedefs are used to define our data types, see typedefs file for details
+import "./typedefs.js";
+
 const config = {
   canvasBackground: theme.canvasBackground,
   component: theme.component,
@@ -24,36 +29,35 @@ const config = {
 
 let connections = []
 
-const drawColumn = (column, columnIndex, connections, context) => {
-    let lastBox;
-
+const drawColumn = (column, columnIndex, connections, layout, context) => {
+  console.log('layout', layout);
     // Draw each box
     column.forEach((box, instanceIndex) => {
-      // Origin
-      const position = {
-        x: config.offset + columnIndex * config.component.width + config.columns.margin * columnIndex,
-        y: instanceIndex === 0 ? config.offset : lastBox.bottom + config.component.marginBottom,
-      };
-
-      lastBox = new Box(box, position, connections, [columnIndex, instanceIndex], context);
+      // get this box's position from the layout object
+      const boxPosition = layout.columns[columnIndex][instanceIndex];
+      // box renders when constructed
+      new Box(box, boxPosition, connections, [columnIndex, instanceIndex], context, config);
     });
   }
 
-const drawBoxes = function (data, context) {
+const drawBoxes = function (data, layout, context) {
   // Reset previous connections (lines)
   connections = []
   
-  // Draw each ecolumn
+  // Draw each column
   data.columns.forEach(
-    (column, index) => drawColumn(column, index, data.connections, context)
+    (column, index) => drawColumn(column, index, data.connections, layout, context)
   );
 };
 
+
 function drawLines(connections, context) {
+  // Draw all connection lines (links) between ports in the layout
   context.save();
   context.globalCompositeOperation = 'destination-over';
 
   connections.forEach((connection) => {
+    console.log('connection', connection);
     const start = connection[0];
     const end = connection[1];
 
@@ -80,16 +84,21 @@ function drawLines(connections, context) {
   context.restore();
 }
 
+/**
+ * Return the required height of the entire layout canvas
+ * @param {GraphData} data - graph data object from the API
+ */
 const calculateHeight = (data) => {
+  // total height is dictated by the height of the tallest column.
   let greatestHeight = 0;
 
   // Calculate each column height and use the largest one
   data.forEach((column) => {
-    // Get height
+    // Column height is the sum of the heights of all components in column + margin
     const height = column.reduce((height, component) => {
-      return height + componentHeight(component) + config.component.marginBottom;
+      return height + componentHeight(component, config) + config.component.marginBottom;
     }, 0);
-    // If this column height is bigger, then updates the total height
+    // If this column height is bigger, then update the total height
     if (height > greatestHeight) greatestHeight = height;
   });
 
@@ -97,18 +106,12 @@ const calculateHeight = (data) => {
   return config.offset * 2 + greatestHeight;
 };
 
-const componentHeight = ({ outputPorts, inputPorts }) => {
-  const getAmountOfPorts = (portsGroups) => portsGroups.reduce((sum, { portNumbers }) => {
-    return sum + portNumbers.length
-  }, 0);
+/**
+ * Render the graph visualization
+ * @param {GraphData} data - Parsed data object from the API
+ */
+export function render(data) {
 
-  return (1 +
-    getAmountOfPorts(outputPorts) +
-    getAmountOfPorts(inputPorts)
-  ) * config.component.lineHeight;
-}
-
-function render(data) {
   console.log(data)
 
   const dpi = window.devicePixelRatio;
@@ -127,7 +130,7 @@ function render(data) {
   document.body.style.background = config.canvasBackground;
   
   // Gets context
-  context = canvas.getContext("2d");
+  const context = canvas.getContext("2d");
   // window.context = context;
 
   // Sets global configuration
@@ -150,6 +153,7 @@ function render(data) {
   config.component.padding = { ...config.component.defaultPadding };
   
   // Update column width and margin
+  // TODO: Don't store this in config... config should be largely static, not for storing state of this particular layout
   if (shrink) {
     config.component.width = availableSpace * (1 - defaultMargin / 100) / columnCount;
     config.columns.margin = (availableSpace * defaultMargin / 100) / (columnCount - 1);
@@ -158,9 +162,12 @@ function render(data) {
     config.component.width = config.component.defaultWidth;
     config.columns.margin = defaultMarginMax;
   }
+
+  const layout = getBasicLayout(data, config);
+  console.log('layout', layout);
   
   // Draw every box/instance
-  drawBoxes(data, context);
+  drawBoxes(data, layout, context);
 
   // Draw connections/lines
   drawLines(data.connections, context);

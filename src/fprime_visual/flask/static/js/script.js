@@ -1,3 +1,5 @@
+import {render} from "./canvas.js";
+
 let logsOn = false;
 const log = (() => {
   if (logsOn) {
