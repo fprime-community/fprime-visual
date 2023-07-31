@@ -121,7 +121,7 @@ export function render(data) {
   };
 
   // Inits canvas
-  const canvas = document.querySelector("canvas");
+  const canvas = document.querySelector("canvas#fprime-graph");
   canvas.width = size.width * dpi;
   canvas.height = size.height * dpi;
   canvas.style.width = size.width;
