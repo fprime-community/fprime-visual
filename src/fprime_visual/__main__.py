@@ -29,6 +29,12 @@ def parse_args():
         help="GUI theme [dark|dark-blue|light-seafoam]",
         required=False,
     )
+    parser.add_argument(
+	"--host",
+	default="127.0.0.1",
+	help="IP address to host fprime-visual",
+	required=False,
+    )
 
     args = parser.parse_args()
     return args
@@ -52,7 +58,7 @@ def main():
 
     app = construct_app(config)
 
-    app.run(port=args.gui_port)
+    app.run(host=args.host,port=args.gui_port)
 
 
 if __name__ == "__main__":
