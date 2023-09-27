@@ -47,15 +47,15 @@ header .header-button:hover {
 }
 
 
-canvas, #alert {
+#canvas-container, #alert {
     display: none;
 }
 
-canvas {
+#canvas-container {
     width: 100%;
 }
 
-canvas.show {
+#canvas-container.show {
     display: block;
 }
 

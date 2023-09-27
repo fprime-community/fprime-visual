@@ -1,4 +1,5 @@
 import {render} from "./canvas.js";
+import {render as render2} from "./canvas2.js";
 
 let logsOn = false;
 const log = (() => {
@@ -12,24 +13,26 @@ const log = (() => {
 
 const Program = {
   init() {
-    this.events();
+    this.bindEvents();
     this.loadFolders();
+    this.initLayoutOptions();
   },
   
-  events() {
-    // On browser resize
+  bindEvents() {
+    // On window resize, reload the graph to re-render with new size
+    // todo: could reuse existing graph instead of re-loading it from server
     window
-      .addEventListener("resize", deBounce(this.loadFile.bind(Program), 300));
+      .addEventListener("resize", deBounce(this.loadFileAndRender.bind(Program), 300));
     
-    // On folder change
+    // On folder (dropdown) change, load the filenames in that folder
     document
       .getElementById("select-folder")
       .addEventListener("change", this.loadFileNames.bind(this));
     
-    // On file change
+    // On file (dropdown) change, load the file and render the graph
     document
       .getElementById("select-file")
-      .addEventListener("change", () => this.loadFile());
+      .addEventListener("change", () => this.loadFileAndRender());
   
     document
       .getElementById("info-button")
@@ -38,6 +41,9 @@ const Program = {
     document
       .getElementById('screenshot-button')
       .addEventListener('click', (event) => this.screenshotCanvas(event));
+  },
+  initLayoutOptions() {
+
   },
 
   screenshotCanvas(event) {
@@ -60,10 +66,9 @@ const Program = {
   
   // Returns a response promise asynchronously
   loadJSON(jsonFile) {
-    fetch('/get-file?file=' + jsonFile)
+    return fetch('/get-file?file=' + jsonFile)
       // Parse server response into json 
-      .then((response) => response.json())
-      .then(render);
+      .then((response) => response.json());
   },
 
   loadFolders() {
@@ -76,7 +81,7 @@ const Program = {
     let element = '#alert';
 
     if (!response.err) {  
-      element = 'canvas';
+      element = '#canvas-container';
       this.populateOptions(response.folders, '#select-folder');
       this.loadFileNames();
       // Hide folder selection if only one folder is found
@@ -104,7 +109,7 @@ const Program = {
       .then((response) => response.json())
       .then((data) => {
         this.populateOptions(data.jsonFiles, '#select-file');
-        this.loadFile();
+        this.loadFileAndRender();
       })
   },
 
@@ -118,8 +123,7 @@ const Program = {
   },
 
   populateOptions (data, selectID) {
-    console.log('populateOptions: ', data)
-    // Map each option
+    // Create a new <option> in the dropdown for each item in the data
     const options = data.map((path) => {
       const title = path.replace(/\.json$/, '')
       return `<option value = "${path}">${title}</option>`;
@@ -128,21 +132,19 @@ const Program = {
     document.querySelector(selectID).innerHTML = options.join('');
   },
   
-  loadFile () {
+  loadFileAndRender () {
+    // load the JSON file selected in the dropdown
     const fileName = document.getElementById('select-file').value;
     if (!fileName) {
-      return
+      return;
     }
-
-    // Generates file path.
+    // Generate file path.
     const path = this.getFolder() + fileName;
     
-    // Loads file
-    this.loadJSON(path);
-  },
-
-  alertUser() {
-
+    // Load JSON graph file and render
+    const loadingJSON = this.loadJSON(path);
+    loadingJSON.then(render2);
+    loadingJSON.then(render);
   }
 };
 

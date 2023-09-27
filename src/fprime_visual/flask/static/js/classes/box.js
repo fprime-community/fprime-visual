@@ -1,10 +1,11 @@
 import {componentHeight} from "../layout/basic-layout.js";
 
 export class Box {
-  constructor(element, position, connections, coordinates, context, config) {
+  constructor(element, position, columnSize, connections, coordinates, context, config) {
     // Attr
     this.element = element;
     this.position = position;
+    this.columnSize = columnSize;
     this.context = context;
     this.config = config;
     this.coordinates = coordinates;
@@ -12,8 +13,6 @@ export class Box {
 
     this.createBox();
     this.createPortBoxes();
-
-    this.bottom = this.position.y + componentHeight(element, config);
   }
 
   trimText(instanceName, availWidth) {
@@ -32,7 +31,7 @@ export class Box {
   }
 
   createBox() {
-    const { element, position, context, config } = this;
+    const { element, position, columnSize, context, config } = this;
     const { instanceName } = element;
     
     // Box
@@ -41,7 +40,7 @@ export class Box {
       context,
       position.x,
       position.y,
-      config.component.width,
+      columnSize.width,
       componentHeight(element, config),
       config.portBox.borderRadius,
       true,
@@ -61,8 +60,8 @@ export class Box {
     // Component (left top)
     context.fillText(
       this.trimText(instanceName),
-      position.x + config.component.padding.x,
-      position.y + config.component.padding.y
+      position.x + this.columnSize.padding.x,
+      position.y + this.columnSize.padding.y
     );
     context.restore();
   }
@@ -70,8 +69,8 @@ export class Box {
   // TODO then subtract 2 * padding
 
   getAvailableSpace() {
-    const {config} = this;
-    const availableSpace = config.component.width - config.component.padding.x * 2;
+    const {columnSize} = this;
+    const availableSpace = columnSize.width - columnSize.padding.x * 2;
     return availableSpace;
   }
 
@@ -147,7 +146,7 @@ export class Box {
   }
 
   createPortBox(box, index) {
-    const { position: parentPosition, context, config } = this;
+    const { position: parentPosition, columnSize, context, config } = this;
     const { num, port, showPortName } = box;
   
     const styles = config.portBox[box.portType];
@@ -157,7 +156,7 @@ export class Box {
     const boxCenter = config.portBox.size / 2;
     const positionX =
       align === "right"
-        ? parentPosition.x + config.component.width - boxCenter
+        ? parentPosition.x + columnSize.width - boxCenter
         : parentPosition.x - boxCenter;
     const margin =
       align === "right"
@@ -168,6 +167,8 @@ export class Box {
     const position = {x: positionX, y: positionY};
 
     this.connections.forEach((connection) => {
+      // TODO move this logic elsewhere - box renderer shouldn't mutate connections
+      // TODO use relative coords to match ELK format
       let [source, target] = connection
       target = target.toString();
       source = source.toString();

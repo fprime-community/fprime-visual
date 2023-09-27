@@ -16,10 +16,7 @@
  * @param {Boolean} [fill = false] Whether to fill the rectangle.
  * @param {Boolean} [stroke = true] Whether to stroke the rectangle.
  */
-/*function roundRectWithConfig(config) {
-  let { context, x, y, width, height, radius, fill, stroke } = config;
-  console.log({ context, x, y, width, height, radius, fill, stroke });
-}*/
+
 function roundRect(context, x, y, width, height, radius, fill, stroke) {
     if (typeof stroke === 'undefined') {
       stroke = true;
@@ -53,7 +50,12 @@ function roundRect(context, x, y, width, height, radius, fill, stroke) {
       context.stroke();
     }
   
-  }
+}
+
+/*function roundRectWithConfig(config) {
+let { context, x, y, width, height, radius, fill, stroke } = config;
+console.log({ context, x, y, width, height, radius, fill, stroke });
+}*/
 
 function deBounce(fn, time) {
   let timeout

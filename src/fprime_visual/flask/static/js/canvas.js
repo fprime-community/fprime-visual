@@ -1,6 +1,6 @@
-import {getBasicLayout, componentHeight} from "./layout/basic-layout.js";
+import {calculateHeight, getBasicLayout} from "./layout/basic-layout.js";
 import {Box} from "./classes/box.js";
-// JSDoc typedefs are used to define our data types, see typedefs file for details
+// JSDoc typedefs defining data types, see typedefs file for details
 import "./typedefs.js";
 
 const config = {
@@ -36,7 +36,7 @@ const drawColumn = (column, columnIndex, connections, layout, context) => {
       // get this box's position from the layout object
       const boxPosition = layout.columns[columnIndex][instanceIndex];
       // box renders when constructed
-      new Box(box, boxPosition, connections, [columnIndex, instanceIndex], context, config);
+      new Box(box, boxPosition, layout.columnSize, connections, [columnIndex, instanceIndex], context, config);
     });
   }
 
@@ -51,7 +51,8 @@ const drawBoxes = function (data, layout, context) {
 };
 
 
-function drawLines(connections, context) {
+function drawLines(connections, layout, context) {
+  const {columnSize} = layout;
   // Draw all connection lines (links) between ports in the layout
   context.save();
   context.globalCompositeOperation = 'destination-over';
@@ -70,9 +71,9 @@ function drawLines(connections, context) {
     context.beginPath();
     context.moveTo(start.x, start.y);
     context.bezierCurveTo(
-      start.x + config.columns.margin / 2,
+      start.x + columnSize.margin / 2,
       start.y,
-      end.x - config.columns.margin / 2,
+      end.x - columnSize.margin / 2,
       end.y,
       end.x,
       end.y
@@ -84,91 +85,46 @@ function drawLines(connections, context) {
   context.restore();
 }
 
-/**
- * Return the required height of the entire layout canvas
- * @param {GraphData} data - graph data object from the API
- */
-const calculateHeight = (data) => {
-  // total height is dictated by the height of the tallest column.
-  let greatestHeight = 0;
+export function setupCanvas(size, canvasId) {
+  // handle high-DPI displays
+  const dpi = window.devicePixelRatio;
+  const canvas = document.querySelector(`canvas#${canvasId}`);
+  canvas.width = size.width * dpi;
+  canvas.height = size.height * dpi;
+  canvas.style.width = size.width + 'px';
+  canvas.style.height = size.height + 'px';
+  canvas.style.background = config.canvasBackground;
+  document.body.style.background = config.canvasBackground;
 
-  // Calculate each column height and use the largest one
-  data.forEach((column) => {
-    // Column height is the sum of the heights of all components in column + margin
-    const height = column.reduce((height, component) => {
-      return height + componentHeight(component, config) + config.component.marginBottom;
-    }, 0);
-    // If this column height is bigger, then update the total height
-    if (height > greatestHeight) greatestHeight = height;
-  });
+  // Gets context
+  const context = canvas.getContext("2d");
+  // Sets global configuration
+  context.textBaseline = "middle";
+  // Sets DPI
+  context.setTransform(dpi, 0, 0, dpi, 0, 0);
 
-  // Return height
-  return config.offset * 2 + greatestHeight;
-};
+  return context
+}
 
 /**
  * Render the graph visualization
  * @param {GraphData} data - Parsed data object from the API
  */
 export function render(data) {
-
   console.log(data)
 
-  const dpi = window.devicePixelRatio;
   const size = {
     width: window.innerWidth,
-    height: calculateHeight(data.columns),
+    height: calculateHeight(data.columns, config),
   };
+  const context = setupCanvas(size, 'fprime-graph');
 
-  // Inits canvas
-  const canvas = document.querySelector("canvas#fprime-graph");
-  canvas.width = size.width * dpi;
-  canvas.height = size.height * dpi;
-  canvas.style.width = size.width;
-  canvas.style.height = size.height;
-  canvas.style.background = config.canvasBackground;
-  document.body.style.background = config.canvasBackground;
-  
-  // Gets context
-  const context = canvas.getContext("2d");
-  // window.context = context;
-
-  // Sets global configuration
-  context.textBaseline = "middle";
-
-  // Sets DPI
-  context.setTransform(dpi, 0, 0, dpi, 0, 0);
-
-  // Calculate column width
-  const columnCount = data.columns.length;
-  const availableSpace = size.width - config.offset * 2;
-  //console.log(availableSpace, columnCount, config.,)
-  //let _maxColumnWidth = availableSpace / columnCount - (config.columns.defaultMarginMax * (columnCount - 1)) / columnCount;
-  let maxColumnWidth = (availableSpace - config.columns.defaultMarginMax * (columnCount - 1)) / columnCount;
-
-  // Need to shrink?
-  const shrink = maxColumnWidth <= config.component.defaultWidth;
-  const { defaultMargin, defaultMarginMax } = config.columns;
-  
-  config.component.padding = { ...config.component.defaultPadding };
-  
-  // Update column width and margin
-  // TODO: Don't store this in config... config should be largely static, not for storing state of this particular layout
-  if (shrink) {
-    config.component.width = availableSpace * (1 - defaultMargin / 100) / columnCount;
-    config.columns.margin = (availableSpace * defaultMargin / 100) / (columnCount - 1);
-    config.component.padding.x = config.component.padding.x * .5 
-  } else {
-    config.component.width = config.component.defaultWidth;
-    config.columns.margin = defaultMarginMax;
-  }
-
-  const layout = getBasicLayout(data, config);
+  const layout = getBasicLayout(data, config, size);
   console.log('layout', layout);
   
   // Draw every box/instance
   drawBoxes(data, layout, context);
 
   // Draw connections/lines
-  drawLines(data.connections, context);
+  drawLines(data.connections, layout, context);
 }
