@@ -2,9 +2,9 @@
     font-family: "Roboto Mono", monospace;
 }
 
-body{
+body {
     margin: 0;
-    padding-top: 43px;
+    padding-top: 53px;
     min-height: 100vh;
     background: rgba(21, 26, 42, 1.00);
     /* display: flex;

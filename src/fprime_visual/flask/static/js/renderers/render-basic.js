@@ -1,7 +1,7 @@
-import {calculateHeight, getBasicLayout} from "./layout/basic-layout.js";
-import {Box} from "./classes/box.js";
+import {calculateHeight, getBasicLayout} from "../layouts/basic-layout.js";
+import {Box} from "../classes/box.js";
 // JSDoc typedefs defining data types, see typedefs file for details
-import "./typedefs.js";
+import "../typedefs.js";
 
 const config = {
   canvasBackground: theme.canvasBackground,
@@ -31,19 +31,19 @@ let connections = []
 
 const drawColumn = (column, columnIndex, connections, layout, context) => {
   console.log('layout', layout);
-    // Draw each box
-    column.forEach((box, instanceIndex) => {
-      // get this box's position from the layout object
-      const boxPosition = layout.columns[columnIndex][instanceIndex];
-      // box renders when constructed
-      new Box(box, boxPosition, layout.columnSize, connections, [columnIndex, instanceIndex], context, config);
-    });
-  }
+  // Draw each box
+  column.forEach((box, instanceIndex) => {
+    // get this box's position from the layout object
+    const boxPosition = layout.columns[columnIndex][instanceIndex];
+    // box renders when constructed
+    new Box(box, boxPosition, layout.columnSize, connections, [columnIndex, instanceIndex], context, config);
+  });
+}
 
 const drawBoxes = function (data, layout, context) {
   // Reset previous connections (lines)
   connections = []
-  
+
   // Draw each column
   data.columns.forEach(
     (column, index) => drawColumn(column, index, data.connections, layout, context)
@@ -121,7 +121,7 @@ export function render(data) {
 
   const layout = getBasicLayout(data, config, size);
   console.log('layout', layout);
-  
+
   // Draw every box/instance
   drawBoxes(data, layout, context);
 

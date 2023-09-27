@@ -1,4 +1,4 @@
-export function setupCanvas(size, canvasId) {
+export function setupCanvas(size, canvasId, config) {
   // handle high-DPI displays
   const dpi = window.devicePixelRatio;
   const canvas = document.querySelector(`canvas#${canvasId}`);

@@ -3,7 +3,7 @@ import {calculateHeight, componentHeight, getColumnSize} from "../layouts/basic-
 // import {drawGraph} from "./draw-graph.js";
 import {setupCanvas} from "./render-utils.js";
 // JSDoc typedefs defining data types, see typedefs file for details
-import "./typedefs.js";
+import "../typedefs.js";
 
 // DRAFT VERSION of alternate graph rendering using elkjs layout engine
 
@@ -290,7 +290,7 @@ export function drawNodeLabel(label, node, context, config) {
  * Render the graph visualization
  * @param {GraphData} data - Parsed data object from the API
  */
-export function render(data, canvasId = 'fprime-graph2') {
+export function render(data, canvasId = 'fprime-graph') {
   // determine the size of the canvas
   const size = {
     width: window.innerWidth,
@@ -301,7 +301,7 @@ export function render(data, canvasId = 'fprime-graph2') {
   const elkGraph = toElkGraph(data, size);
 
   // create & setup the canvas element/context
-  const context = setupCanvas(size, canvasId);
+  const context = setupCanvas(size, canvasId, config);
 
   // run the ELK layout algorithm on the ELK graph and render the result
   elk.layout(elkGraph)

@@ -1,5 +1,6 @@
-import {render} from "./canvas.js";
-import {render as render2} from "./canvas2.js";
+// import {render} from "./canvas.js";
+// import {render as render2} from "./canvas2.js";
+import {renderers} from "./renderers/index.js";
 
 let logsOn = false;
 const log = (() => {
@@ -33,6 +34,10 @@ const Program = {
     document
       .getElementById("select-file")
       .addEventListener("change", () => this.loadFileAndRender());
+
+    document
+      .getElementById("select-layout")
+      .addEventListener("change", () => this.loadFileAndRender());
   
     document
       .getElementById("info-button")
@@ -43,7 +48,9 @@ const Program = {
       .addEventListener('click', (event) => this.screenshotCanvas(event));
   },
   initLayoutOptions() {
-
+    const rendererKeys = Object.keys(renderers);
+    const rendererLabels = rendererKeys.map(key => renderers[key].name || key);
+    this.populateOptions(rendererKeys, '#select-layout', rendererLabels);
   },
 
   screenshotCanvas(event) {
@@ -122,11 +129,14 @@ const Program = {
     return folder;
   },
 
-  populateOptions (data, selectID) {
+  populateOptions (data, selectID, labels) {
     // Create a new <option> in the dropdown for each item in the data
-    const options = data.map((path) => {
-      const title = path.replace(/\.json$/, '')
-      return `<option value = "${path}">${title}</option>`;
+    const options = data.map((path, i) => {
+      let label = path.replace(/\.json$/, '');
+      if(labels && labels.length > i && labels[i]) {
+        label = labels[i];
+      }
+      return `<option value = "${path}">${label}</option>`;
     });
 
     document.querySelector(selectID).innerHTML = options.join('');
@@ -140,10 +150,16 @@ const Program = {
     }
     // Generate file path.
     const path = this.getFolder() + fileName;
-    
+
+    // get the renderer which will render the data
+    const rendererKey = document.getElementById('select-layout').value;
+    if(!rendererKey) return;
+    const render = renderers[rendererKey].render;
+    console.log('renderer is', render);
+
     // Load JSON graph file and render
     const loadingJSON = this.loadJSON(path);
-    loadingJSON.then(render2);
+    // loadingJSON.then(render2);
     loadingJSON.then(render);
   }
 };
