@@ -84,9 +84,10 @@ visualize FPP models.
     python_requires=">=3.7",
     setup_requires=["setuptools_scm"],
     install_requires=[
-        "flask>=1.1.2,<=2.2.3",
+        "flask>=2.2.3,<3.3.0",
         "flask_compress>=1.11",
         "pytest>=6.2.4",
         "flask_restful>=0.3.8",
+        "Werkzeug>=2.2.0,<3.0.0"
     ],
 )
