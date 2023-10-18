@@ -94,7 +94,15 @@ const Program = {
       // Hide folder selection if only one folder is found
       if (response.folders.length == 1) {
         document.getElementById("select-folder-zone").style.display = 'none';
-      } 
+      } else if (response.folders.length > 1) {
+        // set examples folder as the default selected option if it exists
+        const examplesFolder = response.folders.find(path => path.includes('examples'));
+        const selectFolderEl = document.getElementById("select-folder");
+        if(examplesFolder) selectFolderEl.value = examplesFolder;
+        // trigger change event so event handler is called
+        selectFolderEl.dispatchEvent(new Event("change"));
+
+      }
     }
 
     // Show alert message or canvas.
@@ -155,7 +163,6 @@ const Program = {
     const rendererKey = document.getElementById('select-layout').value;
     if(!rendererKey) return;
     const render = renderers[rendererKey].render;
-    console.log('renderer is', render);
 
     // Load JSON graph file and render
     const loadingJSON = this.loadJSON(path);

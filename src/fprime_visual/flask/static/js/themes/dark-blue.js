@@ -5,7 +5,7 @@ let theme = {
     borderRadius: 8,
     targetFillStyle: "rgb(150, 150, 150)",
     sourceFillStyle: "rgb(150, 150, 150)",
-    font: "12px Roboto Mono",
+    font: "14px Roboto Mono",
     source: {
       background: "rgba(37, 84, 107, 1)",
       numberColor: "rgba(150, 150, 150, 1)",
@@ -27,7 +27,7 @@ let theme = {
       y: 24,
     },
     title: {
-      font: '500 12px Roboto',
+      font: '500 13px Roboto',
       align: 'left',
       color: "rgba(0, 0, 0, 1)"
     }

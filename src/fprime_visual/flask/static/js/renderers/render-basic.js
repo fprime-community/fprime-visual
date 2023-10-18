@@ -1,5 +1,6 @@
 import {calculateHeight, getBasicLayout} from "../layouts/basic-layout.js";
 import {Box} from "../classes/box.js";
+import {setupCanvas} from "./render-utils.js";
 // JSDoc typedefs defining data types, see typedefs file for details
 import "../typedefs.js";
 
@@ -24,7 +25,7 @@ const config = {
     defaultMargin: 25
   },
   strokeStyle: theme.strokeStyle,
-  lineWidth: 1,
+  lineWidth: 2,
 };
 
 let connections = []
@@ -49,7 +50,6 @@ const drawBoxes = function (data, layout, context) {
     (column, index) => drawColumn(column, index, data.connections, layout, context)
   );
 };
-
 
 function drawLines(connections, layout, context) {
   const {columnSize} = layout;
@@ -84,28 +84,6 @@ function drawLines(connections, layout, context) {
   });
   context.restore();
 }
-
-export function setupCanvas(size, canvasId) {
-  // handle high-DPI displays
-  const dpi = window.devicePixelRatio;
-  const canvas = document.querySelector(`canvas#${canvasId}`);
-  canvas.width = size.width * dpi;
-  canvas.height = size.height * dpi;
-  canvas.style.width = size.width + 'px';
-  canvas.style.height = size.height + 'px';
-  canvas.style.background = config.canvasBackground;
-  document.body.style.background = config.canvasBackground;
-
-  // Gets context
-  const context = canvas.getContext("2d");
-  // Sets global configuration
-  context.textBaseline = "middle";
-  // Sets DPI
-  context.setTransform(dpi, 0, 0, dpi, 0, 0);
-
-  return context
-}
-
 /**
  * Render the graph visualization
  * @param {GraphData} data - Parsed data object from the API
@@ -117,10 +95,9 @@ export function render(data) {
     width: window.innerWidth,
     height: calculateHeight(data.columns, config),
   };
-  const context = setupCanvas(size, 'fprime-graph');
+  const context = setupCanvas(size, 'fprime-graph', config);
 
   const layout = getBasicLayout(data, config, size);
-  console.log('layout', layout);
 
   // Draw every box/instance
   drawBoxes(data, layout, context);

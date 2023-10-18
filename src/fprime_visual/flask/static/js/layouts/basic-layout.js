@@ -30,24 +30,6 @@ export function getBasicLayout(data, config, canvasSize) {
   };
 }
 
-export function getBasicLayout2(data, config, canvasSize) {
-  // new version of getBasicLayout that returns layout in ELK graph format
-  return {
-    children: [
-      {
-        id: 'myid',
-        x: 20,
-        y: 20,
-        width: 100,
-        height: 100,
-        ports: [
-
-        ]
-      }
-    ],
-  }
-}
-
 // --- HELPERS --- //
 export function componentHeight({ outputPorts, inputPorts }, config) {
   // TODO avoid passing in config here?

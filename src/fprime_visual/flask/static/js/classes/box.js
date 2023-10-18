@@ -1,4 +1,4 @@
-import {componentHeight} from "../layout/basic-layout.js";
+import {componentHeight} from "../layouts/basic-layout.js";
 
 export class Box {
   constructor(element, position, columnSize, connections, coordinates, context, config) {
@@ -22,7 +22,7 @@ export class Box {
     
     if (titleWidth > availWidth) {
       // Figure out how to reduce char count
-      const avgCharWidth = context.measureText(instanceName).width / instanceName.length
+      const avgCharWidth = this.context.measureText(instanceName).width / instanceName.length
       const letterCount = Math.floor(availWidth / avgCharWidth);
       instanceName = instanceName.slice(0, letterCount - 2) + "...";
     }
