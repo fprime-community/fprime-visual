@@ -1,14 +1,12 @@
 // some utils are borrowed from the basic layout
 import {calculateHeight, componentHeight, getColumnSize} from "../layouts/basic-layout.js";
-import {setupCanvas} from "./helpers/render-utils.js";
+import {setupCanvas, roundRect} from "./helpers/render-utils.js";
 // JSDoc typedefs defining data types, see typedefs file for details
 import "../typedefs.js";
 
-// Code for transforming an F' graph into an ELK graph,
-// running the ELK layout engine and rendering on a canvas
+// Code for transforming F' graph -> ELK graph, running the ELK layout engine & rendering on a canvas
 // Object keys starting with `elk.` are configurable ELK options, see https://eclipse.dev/elk/reference/options.html
-//  -> note that depending on the option, they need to be correctly applied
-//     to either the graph, node, or port to behave as expected
+// -> options must be used on the correct type of object (graph, node or port depending on option) to work as expected
 
 /**
  * Translate the FPrime graph data into an ELK-format JSON graph
@@ -112,6 +110,8 @@ export function toElkGraph(fpGraph, size, config) {
     layoutOptions: {
       // the main layout algorithm - see https://eclipse.dev/elk/reference/algorithms/org-eclipse-elk-layered.html
       'elk.algorithm': 'layered',
+      // padding to apply around the edges of the graph
+      // "elk.padding": "[left=24, top=24, right=24, bottom=24]",
       // X spacing between columns ie. layers
       'elk.layered.spacing.nodeNodeBetweenLayers': columnSize.margin,
       // Y spacing between nodes (boxes) in the same column
@@ -302,7 +302,7 @@ export function render(data, config, canvasId = 'fprime-graph') {
       const context = setupCanvas(size, canvasId, config);
       drawGraph(graphWithLayout, context, config);
     })
-    .catch(console.error)
+    .catch(console.error);
 }
 
 // example ELK graph used for testing, uncomment if needed

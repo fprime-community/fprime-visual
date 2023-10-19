@@ -1,15 +1,4 @@
-// import {render} from "./canvas.js";
-// import {render as render2} from "./canvas2.js";
 import {renderers} from "./renderers/index.js";
-
-let logsOn = false;
-const log = (() => {
-  if (logsOn) {
-    return console.log.bind(console);
-  } else {
-    return () => {};
-  }
-})();
 
 // graph config & constants, used by all layouts
 // defined here because we may want to let users change some of these as dynamic settings in future
@@ -116,19 +105,16 @@ const Program = {
     if (!response.err) {  
       element = '#canvas-container';
       this.populateOptions(response.folders, '#select-folder');
-      this.loadFileNames();
-      // Hide folder selection if only one folder is found
-      if (response.folders.length == 1) {
+      if (response.folders.length === 1) {
+        // Hide folder selection if only one folder is found
         document.getElementById("select-folder-zone").style.display = 'none';
       } else if (response.folders.length > 1) {
         // set examples folder as the default selected option if it exists
         const examplesFolder = response.folders.find(path => path.includes('examples'));
         const selectFolderEl = document.getElementById("select-folder");
         if(examplesFolder) selectFolderEl.value = examplesFolder;
-        // trigger change event so event handler is called
-        selectFolderEl.dispatchEvent(new Event("change"));
-
       }
+      this.loadFileNames();
     }
 
     // Show alert message or canvas.

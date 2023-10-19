@@ -1,4 +1,5 @@
 import {componentHeight} from "../../layouts/basic-layout.js";
+import {roundRect} from "./render-utils.js";
 
 // Box & port rendering class used by the basic (non-ELK) layout.
 // Not recommended for use with new layouts, since it is closely tied
