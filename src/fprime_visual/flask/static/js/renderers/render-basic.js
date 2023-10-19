@@ -1,33 +1,10 @@
 import {calculateHeight, getBasicLayout} from "../layouts/basic-layout.js";
-import {Box} from "../classes/box.js";
-import {setupCanvas} from "./render-utils.js";
+import {Box} from "./helpers/box.js";
+import {setupCanvas} from "./helpers/render-utils.js";
 // JSDoc typedefs defining data types, see typedefs file for details
 import "../typedefs.js";
 
-const config = {
-  canvasBackground: theme.canvasBackground,
-  component: theme.component,
-  offset: 40,
-  portBox: {
-    // Source rectangle icon
-    sourceWidth: 2,
-    sourceHeight: 4,
-    // Target triangle icon
-    targetWidth: 7,
-    targetHeight: 9,
-    targetFillStyle: "#0F0",
-    size: 30,
-    ...theme.portBox
-  },
-  portDistance: 210,
-  columns: {
-    defaultMarginMax: 150,
-    defaultMargin: 25
-  },
-  strokeStyle: theme.strokeStyle,
-  lineWidth: 2,
-};
-
+let config;
 let connections = []
 
 const drawColumn = (column, columnIndex, connections, layout, context) => {
@@ -36,7 +13,7 @@ const drawColumn = (column, columnIndex, connections, layout, context) => {
   column.forEach((box, instanceIndex) => {
     // get this box's position from the layout object
     const boxPosition = layout.columns[columnIndex][instanceIndex];
-    // box renders when constructed
+    // box renders itself when constructed
     new Box(box, boxPosition, layout.columnSize, connections, [columnIndex, instanceIndex], context, config);
   });
 }
@@ -62,20 +39,20 @@ function drawLines(connections, layout, context) {
     const start = connection[0];
     const end = connection[1];
 
-    if (!start || !end) return // console.warn(start,end);
+    if (!start || !end) return
 
-    start.x += config.portBox.size / 2;
-    end.x -= config.portBox.size / 2;
-    // Draw the line give the position
+    // true x start/end of the line is offset by the width of the port extending over the edge of the box
+    const trueXStart = start.x + config.portBox.size / 2;
+    const trueXEnd = end.x -=  config.portBox.targetWidth + ( config.portBox.size / 2 );
 
     context.beginPath();
-    context.moveTo(start.x, start.y);
+    context.moveTo(trueXStart, start.y);
     context.bezierCurveTo(
       start.x + columnSize.margin / 2,
       start.y,
       end.x - columnSize.margin / 2,
       end.y,
-      end.x,
+      trueXEnd,
       end.y
     );
     context.strokeStyle = config.strokeStyle;
@@ -84,12 +61,17 @@ function drawLines(connections, layout, context) {
   });
   context.restore();
 }
+
+
 /**
  * Render the graph visualization
  * @param {GraphData} data - Parsed data object from the API
+ * @param {object} config - config object with layout options
+ * @param {string} canvasId - ID of the existing <canvas> element to render within
  */
-export function render(data) {
-  console.log(data)
+export function render(data, passedConfig, canvasId = 'fprime-graph') {
+  // stash config in a "global" so we don't have to thread the config argument through a bunch of old code
+  config = passedConfig;
 
   const size = {
     width: window.innerWidth,

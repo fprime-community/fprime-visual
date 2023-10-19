@@ -1,4 +1,8 @@
-import {componentHeight} from "../layouts/basic-layout.js";
+import {componentHeight} from "../../layouts/basic-layout.js";
+
+// Box & port rendering class used by the basic (non-ELK) layout.
+// Not recommended for use with new layouts, since it is closely tied
+// to the original layout & mutates the data while rendering.
 
 export class Box {
   constructor(element, position, columnSize, connections, coordinates, context, config) {
@@ -139,9 +143,9 @@ export class Box {
 
       this.context.fillStyle = targetFillStyle;
       context.beginPath();
-      context.moveTo(position.x, position.y + (size - height) / 2);
-      context.lineTo(position.x + width, position.y + size / 2 + .5);
-      context.lineTo(position.x, position.y + (height + size) / 2 + .5);
+      context.moveTo(position.x - width, position.y + (size - height) / 2);
+      context.lineTo(position.x, position.y + size / 2);
+      context.lineTo(position.x - width, position.y + (height + size) / 2);
       context.fill();
   }
 

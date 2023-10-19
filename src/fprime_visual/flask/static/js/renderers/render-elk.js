@@ -1,74 +1,45 @@
 // some utils are borrowed from the basic layout
 import {calculateHeight, componentHeight, getColumnSize} from "../layouts/basic-layout.js";
-// import {drawGraph} from "./draw-graph.js";
-import {setupCanvas} from "./render-utils.js";
+import {setupCanvas} from "./helpers/render-utils.js";
 // JSDoc typedefs defining data types, see typedefs file for details
 import "../typedefs.js";
 
-// DRAFT VERSION of alternate graph rendering using elkjs layout engine
-
-// All the code for drawing/rendering an ELK graph on a canvas.
-// These functions do NOT do any layout (positioning), they are given an already-laid-out
-// ELK graph data structure and draw it on the given canvas context
-
-
-// todo pass in config
-const config = {
-  canvasBackground: theme.canvasBackground,
-  component: theme.component,
-  offset: 40,
-  portBox: {
-    // Source rectangle icon
-    sourceWidth: 2,
-    sourceHeight: 4,
-    // Target triangle icon
-    targetWidth: 12,
-    targetHeight: 10,
-    targetFillStyle: "#0F0",
-    size: 30,
-    ...theme.portBox
-  },
-  portDistance: 210,
-  columns: {
-    defaultMarginMax: 150,
-    defaultMargin: 25
-  },
-  strokeStyle: theme.strokeStyle,
-  lineWidth: 2,
-  bendRadius: 6
-};
-
-
+// Code for transforming an F' graph into an ELK graph,
+// running the ELK layout engine and rendering on a canvas
+// Object keys starting with `elk.` are configurable ELK options, see https://eclipse.dev/elk/reference/options.html
+//  -> note that depending on the option, they need to be correctly applied
+//     to either the graph, node, or port to behave as expected
 
 /**
  * Translate the FPrime graph data into an ELK-format JSON graph
  * - https://eclipse.dev/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html
  * @param {GraphData} fpGraph - FPrime graph data object from the API
+ * @param {{width: Number, height: Number}} size - Expected size of the graph
+ * @param {object} config - Graph config object
  * @returns {ElkNode}
  */
-export function toElkGraph(fpGraph, size) {
+export function toElkGraph(fpGraph, size, config) {
   // determine width & spacing between columns (layers) based on available width
   const columnSize = getColumnSize(fpGraph, config, size.width);
   console.log('columnSize', columnSize);
-  // create flat list of nodes with IDs
+  // create flat list of nodes (aka components, boxes) with IDs
   const nodes = fpGraph.columns.map((column, colIndex) => {
-    console.log(column);
     return column.map((fpNode, nodeIndex) => {
+      // height of each node can be pre-determined
       const nodeHeight = componentHeight(fpNode, config);
-      // Create all input and output ports for this node.
-      // Use index "coordinates" as the port IDs so they are easy to reference in edges,
-      // since GraphData.connections refers to them this way
-      const {lineHeight} = config.component;
       // height of the node header (containing the name of the node)
+      const {lineHeight} = config.component;
       const headerHeight = Math.floor(lineHeight + (lineHeight * 0.25));
       // we need to specify each port's relative position & use the "FIXED_POS" graph setting to
-      // properly satisfy port location requirements (not ideal, there may be a better way).
+      // properly satisfy port location requirements.
       // Cumulatively keep track of previous port's Y offset to calculate the next one
       let prevPortYOffset = 0;
 
-      // create output and input ports for the ELK node
+      // Create all output and input ports for this node.
+      // Use index "coordinates" as the port IDs so they are easy to reference in edges,
+      // since GraphData.connections refers to them this way
       const outputPorts = fpNode.outputPorts.map((portGroup, portGroupIndex) => {
-        return portGroup.portNumbers.map((portNumber, portIndex) => {
+        return portGroup.portNumbers.map((portNumber) => {
           const position = {
             x: columnSize.width,
             y: headerHeight + prevPortYOffset,
@@ -89,7 +60,7 @@ export function toElkGraph(fpGraph, size) {
         })
       }).flat()
       const inputPorts = fpNode.inputPorts.map((portGroup, portGroupIndex) => {
-        return portGroup.portNumbers.map((portNumber, portIndex) => {
+        return portGroup.portNumbers.map((portNumber) => {
           const position = {
             x: 0,
             y: headerHeight + prevPortYOffset,
@@ -161,7 +132,7 @@ export function toElkGraph(fpGraph, size) {
 
 export function drawGraph(elkGraph, context, config) {
   // draw the graph on the canvas element
-  console.log('elkGraph', elkGraph);
+  // console.log('elkGraph', elkGraph);
 
   elkGraph.children.forEach(node => {
     context.fillStyle = config.component.backgroundColor || "#fff";
@@ -273,7 +244,6 @@ function drawPort(port, node, context, config) {
 
 function drawPortTargetTriangle(position, context, config) {
   const {
-    size,
     targetFillStyle,
     targetWidth: width,
     targetHeight: height
@@ -309,9 +279,10 @@ export function drawNodeLabel(label, node, context, config) {
 /**
  * Render the graph visualization
  * @param {GraphData} data - Parsed data object from the API
+ * @param {object} config - config object with layout options
  * @param {string} canvasId - ID of the existing <canvas> element to render within
  */
-export function render(data, canvasId = 'fprime-graph') {
+export function render(data, config, canvasId = 'fprime-graph') {
   // determine the size of the canvas
   const size = {
     width: window.innerWidth,
@@ -319,7 +290,7 @@ export function render(data, canvasId = 'fprime-graph') {
   };
   // transform our FP graph data structure to an ELK graph object
   const elk = new ELK();
-  const elkGraph = toElkGraph(data, size);
+  const elkGraph = toElkGraph(data, size, config);
   console.log("elkGraph", elkGraph);
 
   // run the ELK layout algorithm on the ELK graph and render the result

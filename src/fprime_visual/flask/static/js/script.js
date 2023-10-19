@@ -11,6 +11,32 @@ const log = (() => {
   }
 })();
 
+// graph config & constants, used by all layouts
+// defined here because we may want to let users change some of these as dynamic settings in future
+const config = {
+  canvasBackground: theme.canvasBackground,
+  component: theme.component,
+  offset: 40,
+  portBox: {
+    // Source rectangle icon
+    sourceWidth: 2,
+    sourceHeight: 4,
+    // Target triangle icon
+    targetWidth: 12,
+    targetHeight: 10,
+    targetFillStyle: "#0F0",
+    size: 30,
+    ...theme.portBox
+  },
+  portDistance: 210,
+  columns: {
+    defaultMarginMax: 150,
+    defaultMargin: 25
+  },
+  strokeStyle: theme.strokeStyle,
+  lineWidth: 2,
+  bendRadius: 6
+};
 
 const Program = {
   init() {
@@ -160,14 +186,16 @@ const Program = {
     const path = this.getFolder() + fileName;
 
     // get the renderer which will render the data
+    // TODO: better abstraction of `layouts` vs. `renderers` - ideally multiple layouts sharing one renderer?
     const rendererKey = document.getElementById('select-layout').value;
     if(!rendererKey) return;
     const render = renderers[rendererKey].render;
 
-    // Load JSON graph file and render
+    // Load JSON graph file and use renderer to render it
     const loadingJSON = this.loadJSON(path);
-    // loadingJSON.then(render2);
-    loadingJSON.then(render);
+    loadingJSON.then((fpGraph) => {
+      render(fpGraph, config, 'fprime-graph');
+    }); // todo: catch and throw error
   }
 };
 

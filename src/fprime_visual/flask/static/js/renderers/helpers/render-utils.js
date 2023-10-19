@@ -1,3 +1,5 @@
+// Shared functions used by renderers
+
 export function setupCanvas(size, canvasId, config) {
   // handle high-DPI displays
   const dpi = window.devicePixelRatio;
