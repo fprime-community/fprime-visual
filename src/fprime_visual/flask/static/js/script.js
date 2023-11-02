@@ -1,33 +1,58 @@
-let logsOn = false;
-const log = (() => {
-  if (logsOn) {
-    return console.log.bind(console);
-  } else {
-    return () => {};
-  }
-})();
+import {renderers} from "./renderers/index.js";
 
+// graph config & constants, used by all layouts
+// defined here because we may want to let users change some of these as dynamic settings in future
+const config = {
+  canvasBackground: theme.canvasBackground,
+  component: theme.component,
+  offset: 40,
+  portBox: {
+    // Source rectangle icon
+    sourceWidth: 2,
+    sourceHeight: 4,
+    // Target triangle icon
+    targetWidth: 12,
+    targetHeight: 10,
+    targetFillStyle: "#0F0",
+    size: 30,
+    ...theme.portBox
+  },
+  portDistance: 210,
+  columns: {
+    defaultMarginMax: 150,
+    defaultMargin: 25
+  },
+  strokeStyle: theme.strokeStyle,
+  lineWidth: 2,
+  bendRadius: 6
+};
 
 const Program = {
   init() {
-    this.events();
+    this.bindEvents();
     this.loadFolders();
+    this.initLayoutOptions();
   },
   
-  events() {
-    // On browser resize
+  bindEvents() {
+    // On window resize, reload the graph to re-render with new size
+    // todo: could reuse existing graph instead of re-loading it from server
     window
-      .addEventListener("resize", deBounce(this.loadFile.bind(Program), 300));
+      .addEventListener("resize", deBounce(this.loadFileAndRender.bind(Program), 300));
     
-    // On folder change
+    // On folder (dropdown) change, load the filenames in that folder
     document
       .getElementById("select-folder")
       .addEventListener("change", this.loadFileNames.bind(this));
     
-    // On file change
+    // On file (dropdown) change, load the file and render the graph
     document
       .getElementById("select-file")
-      .addEventListener("change", () => this.loadFile());
+      .addEventListener("change", () => this.loadFileAndRender());
+
+    document
+      .getElementById("select-layout")
+      .addEventListener("change", () => this.loadFileAndRender());
   
     document
       .getElementById("info-button")
@@ -36,6 +61,11 @@ const Program = {
     document
       .getElementById('screenshot-button')
       .addEventListener('click', (event) => this.screenshotCanvas(event));
+  },
+  initLayoutOptions() {
+    const rendererKeys = Object.keys(renderers);
+    const rendererLabels = rendererKeys.map(key => renderers[key].name || key);
+    this.populateOptions(rendererKeys, '#select-layout', rendererLabels);
   },
 
   screenshotCanvas(event) {
@@ -58,10 +88,9 @@ const Program = {
   
   // Returns a response promise asynchronously
   loadJSON(jsonFile) {
-    fetch('/get-file?file=' + jsonFile)
+    return fetch('/get-file?file=' + jsonFile)
       // Parse server response into json 
-      .then((response) => response.json())
-      .then(render);
+      .then((response) => response.json());
   },
 
   loadFolders() {
@@ -74,13 +103,18 @@ const Program = {
     let element = '#alert';
 
     if (!response.err) {  
-      element = 'canvas';
+      element = '#canvas-container';
       this.populateOptions(response.folders, '#select-folder');
-      this.loadFileNames();
-      // Hide folder selection if only one folder is found
-      if (response.folders.length == 1) {
+      if (response.folders.length === 1) {
+        // Hide folder selection if only one folder is found
         document.getElementById("select-folder-zone").style.display = 'none';
-      } 
+      } else if (response.folders.length > 1) {
+        // set examples folder as the default selected option if it exists
+        const examplesFolder = response.folders.find(path => path.includes('examples'));
+        const selectFolderEl = document.getElementById("select-folder");
+        if(examplesFolder) selectFolderEl.value = examplesFolder;
+      }
+      this.loadFileNames();
     }
 
     // Show alert message or canvas.
@@ -102,7 +136,7 @@ const Program = {
       .then((response) => response.json())
       .then((data) => {
         this.populateOptions(data.jsonFiles, '#select-file');
-        this.loadFile();
+        this.loadFileAndRender();
       })
   },
 
@@ -115,32 +149,39 @@ const Program = {
     return folder;
   },
 
-  populateOptions (data, selectID) {
-    console.log('populateOptions: ', data)
-    // Map each option
-    const options = data.map((path) => {
-      const title = path.replace(/\.json$/, '')
-      return `<option value = "${path}">${title}</option>`;
+  populateOptions (data, selectID, labels) {
+    // Create a new <option> in the dropdown for each item in the data
+    const options = data.map((path, i) => {
+      let label = path.replace(/\.json$/, '');
+      if(labels && labels.length > i && labels[i]) {
+        label = labels[i];
+      }
+      return `<option value = "${path}">${label}</option>`;
     });
 
     document.querySelector(selectID).innerHTML = options.join('');
   },
   
-  loadFile () {
+  loadFileAndRender () {
+    // load the JSON file selected in the dropdown
     const fileName = document.getElementById('select-file').value;
     if (!fileName) {
-      return
+      return;
     }
-
-    // Generates file path.
+    // Generate file path.
     const path = this.getFolder() + fileName;
-    
-    // Loads file
-    this.loadJSON(path);
-  },
 
-  alertUser() {
+    // get the renderer which will render the data
+    // TODO: better abstraction of `layouts` vs. `renderers` - ideally multiple layouts sharing one renderer?
+    const rendererKey = document.getElementById('select-layout').value;
+    if(!rendererKey) return;
+    const render = renderers[rendererKey].render;
 
+    // Load JSON graph file and use renderer to render it
+    const loadingJSON = this.loadJSON(path);
+    loadingJSON.then((fpGraph) => {
+      render(fpGraph, config, 'fprime-graph');
+    }); // todo: catch and throw error
   }
 };
 

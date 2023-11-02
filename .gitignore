@@ -5,6 +5,9 @@
 # VisualStudio Code
 **/.vscode
 
+# Webstorm/Jetbrains
+.idea/
+
 # Dependency directories
 /node_modules
 

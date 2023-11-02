@@ -22,6 +22,12 @@
                     <option disabled></option>
                 </select>
             </label>
+            <label>
+                Layout method:
+                <select id="select-layout">
+                    <option disabled></option>
+                </select>
+            </label>
         </form>
         <div id="header-buttons">
             <img class="header-button" id="screenshot-button" src="img/screenshot.png" alt="screenshot-button">
@@ -35,17 +41,22 @@
         <p>Need Help? Head over to the GitHub repo: <a href="https://github.com/fprime-community/fprime-visual">https://github.com/fprime-community/fprime-visual</a> </p>
 
     </div>
-    <canvas></canvas>
+    <div id="canvas-container">
+        <canvas id="fprime-graph"></canvas>
+        <canvas id="fprime-graph2"></canvas>
+    </div>
+
+
+    <script src="js/lib/elkjs/elk.bundled.js"></script>
 
     <script src="js/helpers.js"></script>
 
     <!-- Pick any file in themes dir to change -->
     <script src="js/themes/{{ theme_name }}.js"></script>
+<!--    <script src="js/themes/new-light.js"></script>-->
 
-    <script src="js/parse-data.js"></script>
-    <script src="js/classes/box.js"></script>
+    <script src="js/script.js" type="module"></script>
 
-    <script src="js/canvas.js"></script>
-    <script src="js/script.js"></script>
+
 </body>
 </html>

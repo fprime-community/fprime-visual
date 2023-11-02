@@ -19,7 +19,6 @@ def test_index(client):
     rv = client.get("/")
     assert rv.status_code == 200
     assert b"fprime-visual" in rv.data
-    assert b"canvas.js" in rv.data
     # Default theme is dark-blue
     assert b"dark-blue.js" in rv.data
 
