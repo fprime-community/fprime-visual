@@ -16,9 +16,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Python
-        run: pip3 install -U pip wheel "setuptools<66.0.0" setuptools_scm twine
+        run: pip3 install -U build twine
       - name: Build distributions
-        run: python setup.py sdist bdist_wheel
+        run: python -m build
       - name: Check distributions
         run: twine check dist/*
       - name: Publish distributions to TestPyPI
