@@ -142,10 +142,6 @@ const Program = {
 
   getFolder() {
     let folder = document.getElementById("select-folder").value;
-    // Append trailing slash to ease path concatenation
-    if (!folder.endsWith('/')) {
-      folder += '/';
-    }
     return folder;
   },
 
@@ -164,12 +160,17 @@ const Program = {
   
   loadFileAndRender () {
     // load the JSON file selected in the dropdown
-    const fileName = document.getElementById('select-file').value;
-    if (!fileName) {
+    const fileNames = [...(document.getElementById('select-file').options || [])].filter(
+        (option) => option.selected
+    ).map(
+        (option) => option.value || option.text
+    );
+    if (fileNames.length == 0) {
       return;
     }
-    // Generate file path.
-    const path = this.getFolder() + fileName;
+    const paths = fileNames.map(
+        (fileName) => {return this.getFolder() + "/" + fileName}
+    );
 
     // get the renderer which will render the data
     // TODO: better abstraction of `layouts` vs. `renderers` - ideally multiple layouts sharing one renderer?
@@ -177,10 +178,14 @@ const Program = {
     if(!rendererKey) return;
     const render = renderers[rendererKey].render;
 
+    let fpAmalgamation = {};
     // Load JSON graph file and use renderer to render it
-    const loadingJSON = this.loadJSON(path);
-    loadingJSON.then((fpGraph) => {
-      render(fpGraph, config, 'fprime-graph');
+    paths.forEach((path) => {
+        const loadingJSON = this.loadJSON(path);
+        loadingJSON.then((fpGraph) => {
+            fpAmalgamation = Object.assign(fpAmalgamation, fpGraph);
+            render(fpAmalgamation, config, 'fprime-graph');
+        })
     }); // todo: catch and throw error
   }
 };
