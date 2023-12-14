@@ -28,12 +28,12 @@ def test_folder_handling(client):
     rv = client.get("/get-folder-list")
     assert rv.status_code == 200
     assert "folders" in rv.json
-    assert str(Path("examples/").resolve()) in rv.json["folders"]
+    assert str(Path("examples")) in rv.json["folders"]
 
 
 def test_file_handling(client):
     """Test listing files in source folders."""
-    rv = client.get("/get-file-list", query_string={"folder": "examples/"})
+    rv = client.get("/get-file-list", query_string={"folder": "examples"})
     assert rv.status_code == 200
     example_files = [
         "Uplink.json",
